@@ -13,7 +13,6 @@ An extension of a year end assignent composed of afull-stack console-based airli
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Credits](#credits)
 
 ## Installation
 
@@ -26,12 +25,10 @@ Copy paste this command into the terminal: git clone https://github.com/tinamlia
 Make sure that you've downloaded all the dependencies listed in the requirements section.
 ```
 
-Clone the repo using this link: https://github.com/tinamliang/airlineManagementSystem.git and make sure that you've downloaded all the dependencies listed in the requirements section.
-
 #### Requirements
 
-* [MYSQL]
-* [Visual Studio]
+* MYSQL
+* Visual Studio
 
 ## Usage
 
