@@ -4,5 +4,5 @@
 An extension of a year end assignent composed of afull-stack console-based airline management system written with c++ and MYSQL.
 <br>
 <p align="center">
-  <img src="flight_img.PNG" />
+  <img src="flight_img.PNG" width = "500" height = "300"/>
 </p>
