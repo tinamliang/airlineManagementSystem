@@ -35,5 +35,10 @@ Make sure that you've downloaded all the dependencies listed in the requirements
 All the instructions are clearly listed out in the main menu but just a quick blurb of some unique features that were added to the system:
 
 ```
-When you book a ticket with the program. after the process is completed, a ticket will be automatically printed through a connection to a network printer.
+When you book a ticket with the program. after the process is completed, a ticket will be automatically printed through a 
+connection to a network printer.
+```
+
+```
+This program was created with OOP principles which helps with the program's ease to take on new features or changes implemented in the feature.
 ```
