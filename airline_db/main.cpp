@@ -22,7 +22,7 @@ int main()
 {
 	MYSQL* conn;
 	conn = mysql_init(0);//Intializating the connection
-	conn = mysql_real_connect(conn, "localhost", "root", "password", "airline_db", 3306, NULL, 0);
+	conn = mysql_real_connect(conn, "", "", "", "", 3306, NULL, 0);
 
 	string destination;
 	char bookTicket, cancelFlight, cancelEntireFlight, boolPlaneDepart;
