@@ -3,6 +3,22 @@
 #include <mysql.h>
 using namespace std;
 
+void sysAdminType() {
+
+	cout << "\n\n\n";
+	cout << "\t\t\t**********************************************************************\n";
+	cout << "\t\t\t               Welcome to the AIRLINE BOOKING USER GUIDE   \n";
+	cout << "\t\t\t**********************************************************************\n";
+
+	cout << endl;
+	cout << endl;
+
+	cout << "\t\t\tAre you a?\n";
+
+	cout << "\t\t\t1. Admin\t\t\t2. User\n";
+	cout << "\n\t\t\t\tEnter Your Choice : ";
+}
+
 void displayMenu() {
 
 	cout << endl;
@@ -11,8 +27,21 @@ void displayMenu() {
 	cout << "\t\t\tPlease Choose from the following MENU\n";
 	cout << "\t\t\t-------------------------------------\n";
 	cout << "\t\t\t1. BOOKING\t\t\t2. CANCEL TICKET\n";
-	cout << "\t\t\t3. CANCEL FLIGHT\t\t4. FLIGHT TIME!\n";
-	cout << "\t\t\t5. EXIT";
+	cout << "\t\t\t4. EXIT\n";
+
+	cout << "\n\t\t\t\t\tEnter Your Choice : ";
+
+}
+
+void displayAdminMenu() {
+
+	cout << endl;
+	cout << endl;
+
+	cout << "\t\t\tPlease Choose from the following MENU\n";
+	cout << "\t\t\t-------------------------------------\n";
+	cout << "\t\t\t1. CANCEL FLIGHT\t\t\t2. FLIGHT INFORMATION\n";
+	cout << "\t\t\t3. ADD FLIGHT\t\t\t\t4. EXIT\n";
 
 	cout << "\n\t\t\t\t\tEnter Your Choice : ";
 
@@ -25,94 +54,84 @@ int main()
 	conn = mysql_real_connect(conn, "localhost", "root", "password", "airline_db", 3306, NULL, 0);
 
 	string destination;
-	char bookTicket, cancelFlight, cancelEntireFlight, boolPlaneDepart;
+	char bookTicket, cancelFlight, cancelEntireFlight, boolPlaneDepart, flightAdd;
 	Flight flight;
 	int input;
+	int userType;
+
 	if (conn)
 	{
 
-		cout << "\n\n\n";
-		cout << "\t\t\t**********************************************************************\n";
-		cout << "\t\t\t               Welcome to the AIRLINE BOOKING USER GUIDE   \n";
-		cout << "\t\t\t**********************************************************************\n";
-
-		cout << endl;
-
-		cout << "\t\t1: Books and prints ticket" << endl;
-
-		cout << "\t\t2: Input your first name and last name to cancel your flight. " << endl;
-
-		cout << "\t\t3: Cancel an entire flight using the flight's number. " << endl;
-
-		cout << "\t\t4: Flight's departure, choose the flight's number that outputs all the passengers sorted by seat number. " << endl;
-
-		cout << "\t\t5: QUIT. " << endl;
-
-		cout << endl;
-		cout << "\t\tAny problems / issues with this program please contact through email: problemswithsystem@gmail.com " << endl;
-
-		cout << "\n\n";
-
-		cout << "\t\t\t**********************************************************************\n";
-
-		cout << endl;
-
-		cout << endl;
-
-		// The program menu
-
-
 		do {
 
-			displayMenu();
-			cin >> input;
+			sysAdminType();
+			cin >> userType;
 
-			if (input == 1) {
+			if (userType == 2) {
 
-				cout << "Where is your destination?: " << endl;
-				flight.displayFlightInfo(conn);
-				cin >> destination;
+				displayMenu();
+				cin >> input;
 
-				flight.showFlightSeats(conn, destination);
+				if (input == 1) {
 
-				cout << "Would you like to book a ticket? (y/n)" << endl;
-				cin >> bookTicket;
+					cout << endl;
+					cout << "\t\t\tWhere is your destination?: \n";
+					flight.displayFlightInfo(conn);
+					cout << "\t\t\tEnter destination name: ";
+					cin >> destination;
 
-				if (bookTicket == 'y') {
-					flight.bookTickets(conn, destination);
+					flight.showFlightSeats(conn, destination);
+
+					cout << "\t\t\tWould you like to book a ticket? (y/n) ";
+					cin >> bookTicket;
+
+					if (bookTicket == 'y') {
+						flight.bookTickets(conn, destination);
+					}
+				}
+
+				if (input == 2) {
+
+					cout << "\t\t\tWould you like to cancel a ticket? (y/n) ";
+					cin >> cancelFlight;
+
+					if (cancelFlight == 'y') {
+						flight.cancelTickets(conn);
+					}
 				}
 			}
+			else {
+				displayAdminMenu();
+				cin >> input;
 
-			if (input == 2) {
+				if (input == 1) {
+					cout << "\t\t\tWould you like to cancel an entire flight? (y/n) ";
+					cin >> cancelEntireFlight;
 
-				cout << "Would you like to cancel a flight? (y/n)" << endl;
-				cin >> cancelFlight;
+					if (cancelEntireFlight == 'y') {
+						flight.cancelFlight(conn);
+					}
+				}
+				
+				if (input == 2) {
+					cout << "\t\t\tFlight ready about to depart? (y/n) ";
+					cin >> boolPlaneDepart;
 
-				if (cancelFlight == 'y') {
-					flight.cancelTickets(conn);
+					if (boolPlaneDepart == 'y') {
+						flight.departingFlight(conn);
+					}
+				}
+
+				if (input == 3) {
+					cout << "\t\t\tAdd a flight? (y/n) ";
+					cin >> flightAdd;
+
+					if (flightAdd == 'y') {
+						flight.addFlight(conn);
+					}
 				}
 			}
-
-			if (input == 3) {
-				cout << "Would you like to cancel an entire flight? (y/n)" << endl;
-				cin >> cancelEntireFlight;
-
-				if (cancelEntireFlight == 'y') {
-					flight.cancelFlight(conn);
-				}
-			}
-
-			if (input == 4) {
-
-				cout << "Flight is about to depart? (y/n)" << endl;
-				cin >> boolPlaneDepart;
-
-				if (boolPlaneDepart == 'y') {
-					flight.departingFlight(conn);
-				}
-			}
-
-		} while (input != 5);
+		} while (input != 4);
 	}
 
 }

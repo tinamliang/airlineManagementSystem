@@ -36,7 +36,7 @@ void Flight::displayFlightInfo(MYSQL* conn)
 		{
 			if (atoi(row[1]) != 0)
 			{
-				printf("Id: %s, Destination: %s \n", row[0], row[3]);
+				printf("\t\t\tId: %s, Destination: %s \n", row[0], row[3]);
 			}
 		}
 	}
@@ -63,7 +63,7 @@ void Flight::showFlightSeats(MYSQL* conn, string dest) {
 		{
 			char* c = row[3];
 			if (string(c) == dest) {
-				printf("Seats Available: %s\n", row[1]);
+				printf("\t\t\tSeats Available: %s\n", row[1]);
 			}
 		}
 	}
@@ -121,22 +121,28 @@ void Flight::bookTickets(MYSQL* conn, string dest) {
 
 Passenger Flight::getContactInfo(MYSQL* conn, string dest, string seatsLeft) {
 
+	string dummy;
 	string firstName;
 	string lastName;
 	string address;
 	string phoneNum;
 
-	cout << "Firstname: " << endl;
-	cin >> firstName;
+	cout << "\t\t\tFirstname: ";
+	getline(cin, dummy);
+	getline(cin, firstName);
+	cout << endl;
 
-	cout << "Lastname: " << endl;
-	cin >> lastName;
+	cout << "\t\t\tLastname: ";
+	getline(cin, lastName);
+	cout << endl;
 
-	cout << "Address: " << endl;
-	cin >> address;
+	cout << "\t\t\tAddress: ";
+	getline(cin, address);
+	cout << endl;
 
-	cout << "Phone Number: " << endl;
-	cin >> phoneNum;
+	cout << "\t\t\tPhone Number: ";
+	getline(cin, phoneNum);
+	cout << endl;
 
 	Passenger p;
 
@@ -146,10 +152,10 @@ Passenger Flight::getContactInfo(MYSQL* conn, string dest, string seatsLeft) {
 	p.setPhoneNum(phoneNum);
 	p.setSeatNum(seatsLeft);
 
-	cout << "System accepted login" << endl;
-	cout << p.toString() << endl;
+	cout << "\t\t\tSystem accepted login" << endl;
+	cout << "\t\t\t" + p.toString() << endl;
 
-	
+
 	int qstate = 0;
 	stringstream ss;
 
@@ -160,13 +166,14 @@ Passenger Flight::getContactInfo(MYSQL* conn, string dest, string seatsLeft) {
 	qstate = mysql_query(conn, q);
 
 	if (!qstate) {
-		cout << "Passenger added to database" << endl;
+		cout << "\t\t\tPassenger added to database" << endl;
 
 	}
 
 	else {
 		cout << "Query failed: " << mysql_error(conn) << endl;
 	}
+
 
 	return p;
 	
@@ -177,11 +184,13 @@ void Flight::cancelTickets(MYSQL* conn) {
 	string firstName;
 	string lastName;
 
-	cout << "Firstname: " << endl;
+	cout << "\t\t\tFirstname: ";
 	cin >> firstName;
+	cout << endl;
 
-	cout << "Lastname: " << endl;
+	cout << "\t\t\tLastname: ";
 	cin >> lastName;
+	cout << endl;
 
 	int qstate = 0;
 	MYSQL_ROW row;
@@ -209,7 +218,7 @@ void Flight::cancelTickets(MYSQL* conn) {
 
 				if (!qstate) {
 
-					cout << "Deleted flight!" << endl;
+					cout << "\t\t\tDeleted seat!" << endl;
 
 					ss1 << "UPDATE flights SET seatsAvailable = seatsAvailable + 1 WHERE destination = '" << string(row[4]) << "'";
 
@@ -218,15 +227,10 @@ void Flight::cancelTickets(MYSQL* conn) {
 					int qstate2 = mysql_query(conn, q2);
 
 					if (!qstate2) {
-						cout << "Flight added the seat back!" << endl;
+						cout << "\t\t\tSeat restored" << endl;
 					}
 				}
-				
 			}
-			else {
-				cout << "No passengers matching your info exists, sorry" << endl;
-			}
-			
 		}
 	}
 	else {
@@ -240,8 +244,9 @@ void Flight::cancelFlight(MYSQL* conn) {
 
 	string flightNum;
 
-	cout << "What flight would you like to cancel (flightNum)? " << endl;
+	cout << "\t\t\tWhat flight would you like to cancel (flightNum)?: ";
 	cin >> flightNum;
+	cout << endl;
 
 	int qstate, qstate1 = 0;
 	MYSQL_ROW row;
@@ -276,7 +281,7 @@ void Flight::cancelFlight(MYSQL* conn) {
 					{
 						if (string(row[4]) == destination)
 						{
-							printf("First Name: %s, Last Name: %s, Phone number: %s \n", row[0], row[1], row[3]);
+							printf("\t\t\tFirst Name: %s, Last Name: %s, Phone number: %s \n", row[0], row[1], row[3]);
 
 							ss << "DELETE FROM passengers WHERE firstName = '" << string(row[0]) << "'";
 
@@ -285,7 +290,7 @@ void Flight::cancelFlight(MYSQL* conn) {
 							qstate = mysql_query(conn, q);
 
 							if (!qstate) {
-								cout << "Flight has been canceled!" << endl;
+								cout << "\t\t\tFlight has been canceled!" << endl;
 								
 								ss1 << "DELETE FROM flights WHERE flightNum = '" << flightNum << "'";
 
@@ -294,7 +299,7 @@ void Flight::cancelFlight(MYSQL* conn) {
 								qstate = mysql_query(conn, q);
 
 								if (!qstate) {
-									cout << "Whole flight has been deleted!" << endl;
+									cout << "\t\t\tWhole flight has been deleted!" << endl;
 								}
 							}
 						}
@@ -313,12 +318,64 @@ void Flight::cancelFlight(MYSQL* conn) {
 
 }
 
+void Flight::addFlight(MYSQL* conn) {
+
+	int flightNum;
+	int seatsAvailable;
+	int id;
+	string destination;
+	int gateNum;
+	string departureTime;
+
+	cout << "\t\t\tid: ";
+	cin >> id;
+	cout << endl;
+
+	cout << "\t\t\tseats available: ";
+	cin >> seatsAvailable;
+	cout << endl;
+
+	cout << "\t\t\tFlight number: ";
+	cin >> flightNum;
+	cout << endl;
+
+	cout << "\t\t\tDestination: ";
+	cin >> destination;
+	cout << endl;
+
+	cout << "\t\t\tGate number: ";
+	cin >> gateNum;
+	cout << endl;
+
+	cout << "\t\t\tDeparture time: ";
+	cin >> departureTime;
+	cout << endl;
+
+	int qstate = 0;
+	stringstream ss;
+
+	ss << "INSERT INTO flights(id, seatsAvailable, flightNum, destination, gateNum, departureTime) VALUES('" << id << "', '" << seatsAvailable
+		<< "', '" << flightNum << "', '" << destination << "', '" << gateNum << "', '" << departureTime << "')";
+
+	string query = ss.str();
+	const char* q = query.c_str();
+	qstate = mysql_query(conn, q);
+
+	if (!qstate) {
+		cout << "\t\t\tFlight added to database" << endl;
+
+	} else {
+		cout << "Query failed: " << mysql_error(conn) << endl;
+	}
+}
+
 void Flight::departingFlight(MYSQL* conn) {
 
 	string flightNum;
 
-	cout << "Which flight is departing? " << endl;
+	cout << "\t\t\tWhich flight is departing?: ";
 	cin >> flightNum;
+	cout << endl;
 
 	int qstate, qstate1 = 0;
 	MYSQL_ROW row;
@@ -353,7 +410,8 @@ void Flight::departingFlight(MYSQL* conn) {
 					{
 						if (string(row[4]) == destination)
 						{
-							printf("First Name: %s, Last Name: %s, Phone number: %s, Seat number: %s \n", row[0], row[1], row[3], string(row[5]));
+							printf("\t\t\tFirst Name: %s, Last Name: %s, Phone number: %s, Seat number: %s \n", 
+								row[0], row[1], row[3], string(row[5]));
 						}
 					}
 				}
@@ -404,10 +462,7 @@ void Flight::printTicket(MYSQL* conn, string dest, Passenger p) {
 
 				myfile.close();
 
-				cout << "Ticket was written" << endl;
-
-				system("printTicket.bat");
-				cout << "Starting Batch File...\n";
+				cout << "\t\t\tTicket was created." << endl;
 			}
 		}
 	}

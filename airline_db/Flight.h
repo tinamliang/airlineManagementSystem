@@ -19,6 +19,7 @@ public:
     void cancelTickets(MYSQL* conn);
     void cancelFlight(MYSQL* conn);
     void departingFlight(MYSQL* conn);
+    void addFlight(MYSQL* conn);
     Passenger getContactInfo(MYSQL* conn, string dest, string seatsLeft);
     void printTicket(MYSQL* conn, string dest, Passenger p);
 };
